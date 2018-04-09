@@ -4,6 +4,10 @@ import {
   stub as _stub,
 } from '@nexushubs/react-stubber';
 import _compose from './compose';
+import {
+  composeWithTracker as _composeWithTracker,
+  getTrackerLoader as _getTrackerLoader
+} from './composers';
 
 export const setStubbingMode = _setStubbingMode;
 export const stub = _stub;
@@ -30,3 +34,5 @@ export function merge(...enhancers) {
 }
 
 export const composeAll = merge;
+export const composeWithTracker = _composeWithTracker;
+export const getTrackerLoader = getTrackerLoader;
