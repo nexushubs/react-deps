@@ -1,6 +1,6 @@
 import compose from './compose';
 
-export const composeWithTracker(reactiveFn, L, E, options) => {
+export const composeWithTracker = (reactiveFn, L, E, options) => {
   const onPropsChange = (props, onData, context) => {
     let trackerCleanup;
     const handler = Tracker.nonreactive(() => {
@@ -20,7 +20,7 @@ export const composeWithTracker(reactiveFn, L, E, options) => {
   return compose(onPropsChange, L, E, options);
 }
 
-export const getTrackerLoader(reactiveMapper) => {
+export const getTrackerLoader = (reactiveMapper) => {
   return (props, onData, env) => {
     let trackerCleanup = null;
     const handler = Tracker.nonreactive(() => {
