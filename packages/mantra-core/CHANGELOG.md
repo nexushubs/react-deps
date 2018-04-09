@@ -1,5 +1,10 @@
 # Change Log
 
+### v1.8.0
+
+* Update react-komposer to v2.1.0 that support react 16.
+and add composeWithTracker back so that our app will works without change.
+
 ### v1.7.0
 
 * Update react-storybook to v1.9.0 to support stubbing.
