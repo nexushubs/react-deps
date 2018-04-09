@@ -2,7 +2,7 @@
 import {
   setStubbingMode as _setStubbingMode,
   stub as _stub,
-} from '@nexushubs/react-stubber';
+} from '@lvfang/react-stubber';
 import _compose from './compose';
 import {
   composeWithTracker as _composeWithTracker,

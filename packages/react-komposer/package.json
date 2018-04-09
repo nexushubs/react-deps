@@ -1,5 +1,5 @@
 {
-  "name": "@nexushubs/react-komposer",
+  "name": "@lvfang/react-komposer",
   "version": "2.1.0",
   "description": "Generic way to compose data containers for React.",
   "repository": {
@@ -45,7 +45,7 @@
     "babel-runtime": "^6.11.6",
     "hoist-non-react-statics": "^2.5.0",
     "lodash.pick": "^4.4.0",
-    "@nexushubs/react-stubber": "^1.1.0",
+    "@lvfang/react-stubber": "^1.1.0",
     "shallowequal": "^0.2.2"
   },
   "main": "dist/index.js",

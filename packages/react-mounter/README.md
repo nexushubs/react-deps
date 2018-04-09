@@ -1,5 +1,5 @@
 ```bash
-npm i -S @nexushubs/react-mounter
+npm i -S @lvfang/react-mounter
 ```
 
 > https://github.com/kadirahq/react-mounter

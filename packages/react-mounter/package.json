@@ -1,5 +1,5 @@
 {
-  "name": "@nexushubs/react-mounter",
+  "name": "@lvfang/react-mounter",
   "version": "1.3.0",
   "description": "React Mounter lets you mount React components to DOM easily.",
   "repository": {

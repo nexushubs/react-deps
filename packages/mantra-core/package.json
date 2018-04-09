@@ -1,5 +1,5 @@
 {
-  "name": "@nexushubs/mantra-core",
+  "name": "@lvfang/mantra-core",
   "version": "1.8.0",
   "description": "Core API for Mantra",
   "repository": {
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "babel-runtime": "6.x.x",
-    "@nexushubs/react-komposer": "^2.1.0",
-    "@nexushubs/react-simple-di": "^1.3.0"
+    "@lvfang/react-komposer": "^2.1.0",
+    "@lvfang/react-simple-di": "^1.3.0"
   }
 }

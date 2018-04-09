@@ -1,6 +1,6 @@
 import {
   injectDeps
-} from '@nexushubs/react-simple-di';
+} from '@lvfang/react-simple-di';
 
 export default class App {
   constructor(context) {

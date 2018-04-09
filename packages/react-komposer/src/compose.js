@@ -1,7 +1,7 @@
 import React from 'react';
 import shallowEqual from 'shallowequal';
 import pick from 'lodash.pick';
-import { mayBeStubbed } from '@nexushubs/react-stubber';
+import { mayBeStubbed } from '@lvfang/react-stubber';
 import { inheritStatics } from './utils';
 
 export default function compose(dataLoader, options = {}) {

@@ -1,6 +1,6 @@
 import {
   useDeps as _useDeps
-} from '@nexushubs/react-simple-di';
+} from '@lvfang/react-simple-di';
 
 import {
   compose as _compose,
@@ -9,7 +9,7 @@ import {
   composeWithObservable as _composeWithObservable,
   composeAll as _composeAll,
   disable as _disable,
-} from '@nexushubs/react-komposer';
+} from '@lvfang/react-komposer';
 
 import App from './app';
 
