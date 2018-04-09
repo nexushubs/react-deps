@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactCreateClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import hoistStatics from 'hoist-non-react-statics';
 
 const getDisplayName = Component => (
@@ -21,10 +23,10 @@ export function injectDeps(context, _actions) {
   }
 
   return function (Component) {
-    const ComponentWithDeps = React.createClass({
+    const ComponentWithDeps = ReactCreateClass({
       childContextTypes: {
-        context: React.PropTypes.object,
-        actions: React.PropTypes.object
+        context: PropTypes.object,
+        actions: PropTypes.object
       },
 
       getChildContext() {
@@ -51,7 +53,7 @@ const defaultMapper = (context, actions) => ({
 
 export function useDeps(mapper = defaultMapper) {
   return function (Component) {
-    const ComponentUseDeps = React.createClass({
+    const ComponentUseDeps = ReactCreateClass({
       render() {
         const {context, actions} = this.context;
         const mappedProps = mapper(context, actions);
@@ -65,8 +67,8 @@ export function useDeps(mapper = defaultMapper) {
       },
 
       contextTypes: {
-        context: React.PropTypes.object,
-        actions: React.PropTypes.object
+        context: PropTypes.object,
+        actions: PropTypes.object
       }
     });
 

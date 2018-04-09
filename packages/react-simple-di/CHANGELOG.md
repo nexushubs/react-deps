@@ -1,5 +1,9 @@
 # ChangeLog
 
+### v1.3.0
+
+* Update React to v16.3.1
+
 ### v1.2.0
 
 * Update React to v15.0.0
