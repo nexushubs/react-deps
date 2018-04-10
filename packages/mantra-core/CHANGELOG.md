@@ -1,5 +1,9 @@
 # Change Log
 
+### v1.8.1
+
+* export missing setDefaults and setStubbingMode
+
 ### v1.8.0
 
 * Update react-komposer to v2.1.0 that support react 16.
