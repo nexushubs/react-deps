@@ -9,6 +9,7 @@ import {
   composeWithObservable as _composeWithObservable,
   composeAll as _composeAll,
   disable as _disable,
+  setDefaults as _setDefaults,
 } from '@lvfang/react-komposer';
 
 import App from './app';
@@ -26,3 +27,4 @@ export const composeWithPromise = _composeWithPromise;
 export const composeWithObservable = _composeWithObservable;
 export const composeAll = _composeAll;
 export const disable = _disable;
+export const setDefaults = _setDefaults;
