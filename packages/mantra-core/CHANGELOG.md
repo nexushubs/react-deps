@@ -1,5 +1,9 @@
 # Change Log
 
+### v1.8.2
+
+* update react-komposer to v2.1.1
+
 ### v1.8.1
 
 * export missing setDefaults and setStubbingMode
