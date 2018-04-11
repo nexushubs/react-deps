@@ -1,5 +1,9 @@
 # Changelog
 
+### v2.1.1
+
+https://github.com/storybooks/react-komposer/commit/975fa67f07ca75f889ae2161b047b4d7037fa013
+
 ### v2.1.0
 
 react v16 supported.
