@@ -1,5 +1,8 @@
 # Changelog
 
+### v2.1.5
+fix check stateless function
+
 ### v2.1.2
 match compose args
 

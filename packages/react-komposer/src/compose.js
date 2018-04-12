@@ -2,7 +2,7 @@ import React from 'react';
 import shallowEqual from 'shallowequal';
 import pick from 'lodash.pick';
 import { mayBeStubbed } from '@lvfang/react-stubber';
-import { inheritStatics } from './utils';
+import { inheritStatics, isStateless } from './utils';
 
 export default function compose(dataLoader, options = {}) {
   return function (Child) {
@@ -14,8 +14,15 @@ export default function compose(dataLoader, options = {}) {
       propsToWatch = null, // Watch all the props.
       shouldSubscribe = null,
       shouldUpdate = null,
-      withRef = true,
     } = options;
+
+    let {
+      withRef = true
+    } = options;
+
+    if (isStateless(Child)) {
+      withRef = false;
+    }
 
     class Container extends React.Component {
       constructor(props, ...args) {

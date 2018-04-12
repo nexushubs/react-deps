@@ -1,5 +1,13 @@
 # Change Log
 
+### v1.8.6
+
+* use react-komposer v2.1.5
+
+### v1.8.4
+
+* use react-komposer v2.1.3
+
 ### v1.8.3
 
 * fix komposer args

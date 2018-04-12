@@ -1,5 +1,4 @@
 /* eslint import/prefer-default-export: 0 */
-
 import hoistStatics from 'hoist-non-react-statics';
 
 export function inheritStatics(Container, ChildComponent) {
@@ -13,4 +12,8 @@ export function inheritStatics(Container, ChildComponent) {
 
   Container.displayName = `Container(${childDisplayName})`; // eslint-disable-line
   return hoistStatics(Container, ChildComponent);
+}
+
+export function isStateless({ prototype }) {
+  return prototype && prototype.render ? false : true
 }
