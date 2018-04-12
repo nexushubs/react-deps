@@ -1,5 +1,9 @@
 # Change Log
 
+### v1.8.3
+
+* fix komposer args
+
 ### v1.8.2
 
 * update react-komposer to v2.1.1

@@ -11,11 +11,12 @@ export function mayBeStubbed(Comp) {
         }
 
         const label = `<${displayName}/>`;
+
         return (
-            <span>{label}</span>
-          );
+          <span>{label}</span>
+        );
       }
-      };
+    };
   }
 
   return Comp;
