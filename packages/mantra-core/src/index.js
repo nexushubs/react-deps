@@ -11,6 +11,7 @@ import {
   disable as _disable,
   setDefaults as _setDefaults,
   setStubbingMode as _setStubbingMode,
+  setOptions as _setOptions,
 } from '@lvfang/react-komposer';
 
 import App from './app';
@@ -30,3 +31,4 @@ export const composeAll = _composeAll;
 export const disable = _disable;
 export const setDefaults = _setDefaults;
 export const setStubbingMode = _setStubbingMode;
+export const setOptions = _setOptions;

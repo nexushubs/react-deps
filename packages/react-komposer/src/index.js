@@ -6,7 +6,8 @@ import {
 import _compose from './compose';
 import {
   composeWithTracker as _composeWithTracker,
-  getTrackerLoader as _getTrackerLoader
+  getTrackerLoader as _getTrackerLoader,
+  setOptions as _setOptions
 } from './composers';
 
 export const setStubbingMode = _setStubbingMode;
@@ -36,3 +37,4 @@ export function merge(...enhancers) {
 export const composeAll = merge;
 export const composeWithTracker = _composeWithTracker;
 export const getTrackerLoader = getTrackerLoader;
+export const setOptions = _setOptions;

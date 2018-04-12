@@ -1,5 +1,8 @@
 # Changelog
 
+### v2.1.6
+add setOptions so we can replace options easily
+
 ### v2.1.5
 fix check stateless function
 

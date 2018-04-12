@@ -4,21 +4,24 @@ import pick from 'lodash.pick';
 import { mayBeStubbed } from '@lvfang/react-stubber';
 import { inheritStatics, isStateless } from './utils';
 
+let _options = {
+  errorHandler: (err) => { throw err; },
+  loadingHandler: () => null,
+  env: {},
+  pure: false,
+  propsToWatch: null, // Watch all the props.
+  shouldSubscribe: null,
+  shouldUpdate: null,
+  withRef: true
+};
+
+export function setOptions(options) {
+  _options = { ..._options, ...options };
+}
+
 export default function compose(dataLoader, options = {}) {
   return function (Child) {
-    const {
-      errorHandler = (err) => { throw err; },
-      loadingHandler = () => null,
-      env = {},
-      pure = false,
-      propsToWatch = null, // Watch all the props.
-      shouldSubscribe = null,
-      shouldUpdate = null,
-    } = options;
-
-    let {
-      withRef = true
-    } = options;
+    options = { ..._options, ...options };
 
     if (isStateless(Child)) {
       withRef = false;
