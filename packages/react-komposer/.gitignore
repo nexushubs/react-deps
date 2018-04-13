@@ -2,3 +2,4 @@ node_modules
 *.log
 .idea
 dist
+.meteor-portable-2.json
