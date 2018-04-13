@@ -3,11 +3,13 @@ import {
   setStubbingMode as _setStubbingMode,
   stub as _stub,
 } from '@lvfang/react-stubber';
-import _compose from './compose';
+import {
+  compose as _compose,
+  setOptions as _setOptions
+} from './compose';
 import {
   composeWithTracker as _composeWithTracker,
-  getTrackerLoader as _getTrackerLoader,
-  setOptions as _setOptions
+  getTrackerLoader as _getTrackerLoader
 } from './composers';
 
 export const setStubbingMode = _setStubbingMode;

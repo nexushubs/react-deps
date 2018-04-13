@@ -15,13 +15,27 @@ let _options = {
   withRef: true
 };
 
-export function setOptions(options) {
+export function _setOptions(options) {
   _options = { ..._options, ...options };
 }
 
-export default function compose(dataLoader, options = {}) {
+export function _compose(dataLoader, options = {}) {
   return function (Child) {
     options = { ..._options, ...options };
+
+    const {
+      errorHandler,
+      loadingHandler,
+      env,
+      pure,
+      propsToWatch, // Watch all the props.
+      shouldSubscribe,
+      shouldUpdate
+    } = options;
+
+    let {
+      withRef
+    } = options;
 
     if (isStateless(Child)) {
       withRef = false;
@@ -147,3 +161,6 @@ export default function compose(dataLoader, options = {}) {
     return mayBeStubbed(Container);
   };
 }
+
+export const setOptions = _setOptions;
+export const compose = _compose;

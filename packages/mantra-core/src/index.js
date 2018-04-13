@@ -5,8 +5,6 @@ import {
 import {
   compose as _compose,
   composeWithTracker as _composeWithTracker,
-  composeWithPromise as _composeWithPromise,
-  composeWithObservable as _composeWithObservable,
   composeAll as _composeAll,
   disable as _disable,
   setDefaults as _setDefaults,
@@ -25,8 +23,6 @@ export const useDeps = _useDeps;
 // export react-komposer functions
 export const compose = _compose;
 export const composeWithTracker = _composeWithTracker;
-export const composeWithPromise = _composeWithPromise;
-export const composeWithObservable = _composeWithObservable;
 export const composeAll = _composeAll;
 export const disable = _disable;
 export const setDefaults = _setDefaults;
