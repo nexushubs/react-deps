@@ -1,41 +1,42 @@
-/* global document*/
+/* global document */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import domready from 'domready';
-import { buildRootNode } from './utils';
+import { createElement } from 'react'
+import { render } from 'react-dom'
+import domready from 'domready'
+import { buildRootNode } from './utils'
 
-export let _isDomReady = false;
-export function _ready(cb) {
+export let _isDomReady = false
+
+export function _ready (cb) {
   if (_isDomReady) {
-    return cb();
+    return cb()
   }
 
   domready(() => {
-    _isDomReady = true;
-    setTimeout(cb, 10);
-  });
+    _isDomReady = true
+    setTimeout(cb, 10)
+  })
 }
 
-export function _getRootNode(rootId, rootProps) {
-  const rootNode = document.getElementById(rootId);
+export function _getRootNode (rootId, rootProps) {
+  const rootNode = document.getElementById(rootId)
 
   if (rootNode) {
-    return rootNode;
+    return rootNode
   }
 
-  const rootNodeHtml = buildRootNode(rootId, rootProps);
-  const body = document.getElementsByTagName('body')[0];
-  body.insertAdjacentHTML('beforeend', rootNodeHtml);
+  const rootNodeHtml = buildRootNode(rootId, rootProps)
+  const body = document.getElementsByTagName('body')[0]
+  body.insertAdjacentHTML('beforeend', rootNodeHtml)
 
-  return document.getElementById(rootId);
+  return document.getElementById(rootId)
 }
 
-export function mounter(layoutClass, regions, options) {
+export function mounter (layoutClass, regions, options) {
   _ready(() => {
-    const {rootId, rootProps} = options;
-    const rootNode = _getRootNode(rootId, rootProps);
-    const el = React.createElement(layoutClass, regions);
-    ReactDOM.render(el, rootNode);
-  });
+    const { rootId, rootProps } = options
+    const rootNode = _getRootNode(rootId, rootProps)
+    const el = createElement(layoutClass, regions)
+    render(el, rootNode)
+  })
 }

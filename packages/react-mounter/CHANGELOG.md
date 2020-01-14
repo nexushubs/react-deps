@@ -1,5 +1,8 @@
 # Change Log
 
+### v1.4.0
+* upgrade babel to 7
+
 ### v1.3.0
 * Add support for React v16.0.0
 

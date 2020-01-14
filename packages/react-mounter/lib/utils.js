@@ -1,20 +1,26 @@
-export function buildRootNode(rootId, rootProps) {
-  const props = {...rootProps};
-  props.id = rootId;
+function hasOwnProperty (props, key) {
+  return Object.prototype.hasOwnProperty.call(props, key)
+}
+
+export function buildRootNode (rootId, rootProps) {
+  const props = { ...rootProps }
+  props.id = rootId
+
   if (props.className) {
-    props.class = props.className;
-    delete props.className;
+    props.class = props.className
+    delete props.className
   }
 
-  let propsString = '';
+  let propsString = ''
+
   for (const key in props) {
-    if (!(props.hasOwnProperty(key))) {
-      continue;
+    if (!hasOwnProperty(props, key)) {
+      continue
     }
 
-    const value = props[key];
-    propsString += ` ${key}="${value}"`;
+    const value = props[key]
+    propsString += ` ${key}="${value}"`
   }
 
-  return `<div${propsString}></div>`;
+  return `<div${propsString}></div>`
 }
