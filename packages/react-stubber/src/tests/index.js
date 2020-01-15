@@ -1,64 +1,67 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import { mayBeStubbed, setStubbingMode, stub } from '../index';
-import { expect } from 'chai';
-const { describe, it, after, before } = global;
+import { describe, it, after, before } from 'mocha'
+import { expect } from 'chai'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import React from 'react'
+import { mayBeStubbed, setStubbingMode, stub } from '../index'
 
-const Comp = () => (<div>Hello</div>);
-Comp.displayName = 'TheComp';
+Enzyme.configure({ adapter: new Adapter() })
+
+const Comp = () => (<div>Hello</div>)
+Comp.displayName = 'TheComp'
 
 describe('React Stubber', () => {
   describe('is being asked not to stub', () => {
     before(() => {
-      setStubbingMode(false);
-    });
+      setStubbingMode(false)
+    })
 
     it('should provide the original comp', () => {
-      const Stubbed = mayBeStubbed(Comp);
-      expect(Stubbed).to.be.equal(Comp);
-    });
-  });
+      const Stubbed = mayBeStubbed(Comp)
+      expect(Stubbed).to.be.equal(Comp)
+    })
+  })
 
   describe('is being asked to stub', () => {
     before(() => {
-      setStubbingMode(true);
-    });
+      setStubbingMode(true)
+    })
 
     after(() => {
-      setStubbingMode(false);
-    });
+      setStubbingMode(false)
+    })
 
     describe('and no custom stub generator', () => {
       it('should display the displayName', () => {
-        const Stubbed = mayBeStubbed(Comp);
-        const ref = mount(<Stubbed />);
-        expect(ref.html()).match(/TheComp/);
-      });
-    });
+        const Stubbed = mayBeStubbed(Comp)
+        const ref = mount(<Stubbed />)
+        expect(ref.html()).match(/TheComp/)
+      })
+    })
 
     describe('and there is a custom stub generator', () => {
       it('should get the custom component', () => {
-        const Stubbed = mayBeStubbed(Comp);
+        const Stubbed = mayBeStubbed(Comp)
 
         stub(Stubbed, () => {
-          return (<div>THECUSTOM</div>);
-        });
+          return (<div>THECUSTOM</div>)
+        })
 
-        const ref = mount(<Stubbed />);
-        expect(ref.html()).match(/THECUSTOM/);
-      });
+        const ref = mount(<Stubbed />)
+        expect(ref.html()).match(/THECUSTOM/)
+      })
 
       it('generator should get props', () => {
-        const Stubbed = mayBeStubbed(Comp);
+        const Stubbed = mayBeStubbed(Comp)
 
         stub(Stubbed, (props) => {
-          const total = props.a + props.b;
-          return (<div>{total}</div>);
-        });
+          const total = props.a + props.b
+          return (<div>{total}</div>)
+        })
 
-        const ref = mount(<Stubbed a={10} b={20} />);
-        expect(ref.html()).match(/30/);
-      });
-    });
-  });
-});
+        const ref = mount(<Stubbed a={10} b={20} />)
+        expect(ref.html()).match(/30/)
+      })
+    })
+  })
+})

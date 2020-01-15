@@ -1,5 +1,5 @@
-echo "> Start transpiling ES2015"
+echo "> Start transpiling"
 echo ""
-./node_modules/.bin/babel --plugins "transform-runtime" lib --ignore __tests__ --out-dir ./dist
+npx babel lib --ignore __tests__ --out-dir ./dist
 echo ""
-echo "> Complete transpiling ES2015"
+echo "> Complete transpiling"

@@ -1,15 +1,10 @@
-// IMPORTANT
-// ---------
-// This is an auto generated file with React CDK.
-// Do not modify this file.
-
-import { configure } from '@kadira/storybook';
+import { configure } from '@storybook/react'
 import { setStubbingMode } from '../src'
 
-setStubbingMode(true);
+setStubbingMode(true)
 
 function loadStories() {
-  require('../src/stories');
+  require(`../src/stories/index.stories.js`)
 }
 
-configure(loadStories, module);
+configure(loadStories, module)

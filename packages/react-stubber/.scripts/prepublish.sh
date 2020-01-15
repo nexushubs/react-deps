@@ -6,11 +6,11 @@
 # Do not modify this file.
 # Use `.scripts/user/prepublish.sh instead`.
 
-echo "=> Transpiling 'src' into ES5 ..."
+echo "> Start transpiling"
 echo ""
 rm -rf ./dist
-./node_modules/.bin/babel --ignore tests,stories --plugins "transform-runtime" ./src --out-dir ./dist
+npx babel --ignore tests,stories ./src --out-dir ./dist
 echo ""
-echo "=> Transpiling completed."
+echo "> Complete transpiling"
 
 . .scripts/user/prepublish.sh

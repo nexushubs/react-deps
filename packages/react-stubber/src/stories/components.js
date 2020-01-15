@@ -1,20 +1,19 @@
-import React from 'react';
-import compose from './compose';
-import { mayBeStubbed } from '../';
+import React from 'react'
+import compose from './compose'
+import { mayBeStubbed } from '../'
 
 export const CommentList = () => (
-  <ul>
+  <ul />
+)
 
-  </ul>
-);
-CommentList.displayName = 'CommentList';
-export const CommentListContainer1 = compose(CommentList);
-export const CommentListContainer2 = mayBeStubbed(CommentListContainer1);
-export const CommentListContainer3 = mayBeStubbed(CommentListContainer1);
+CommentList.displayName = 'CommentList'
+export const CommentListContainer1 = compose(CommentList)
+export const CommentListContainer2 = mayBeStubbed(CommentListContainer1)
+export const CommentListContainer3 = mayBeStubbed(CommentListContainer1)
 
 const style = {
-  fontFamily: 'Arial',
-};
+  fontFamily: 'Arial'
+}
 
 export const Post1 = (post) => (
   <div style={style}>
@@ -24,7 +23,7 @@ export const Post1 = (post) => (
     <h3>Comments</h3>
     <CommentListContainer1 postId={post.id} />
   </div>
-);
+)
 
 export const Post2 = (post) => (
   <div style={style}>
@@ -34,7 +33,7 @@ export const Post2 = (post) => (
     <h3>Comments</h3>
     <CommentListContainer2 postId={post.id} />
   </div>
-);
+)
 
 export const Post3 = (post) => (
   <div style={style}>
@@ -44,4 +43,4 @@ export const Post3 = (post) => (
     <h3>Comments</h3>
     <CommentListContainer3 postId={post.id} />
   </div>
-);
+)

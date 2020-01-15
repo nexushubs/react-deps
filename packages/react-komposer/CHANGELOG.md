@@ -1,5 +1,11 @@
 # Changelog
 
+### v2.3.0
+upgrade to babel 7
+
+### v2.2.0
+support react v16.x
+
 ### v2.1.6
 add setOptions so we can replace options easily
 

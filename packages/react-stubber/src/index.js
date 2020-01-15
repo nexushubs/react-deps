@@ -1,31 +1,32 @@
-import React from 'react';
-let stubbingMode = false;
+import React from 'react'
 
-export function mayBeStubbed(Comp) {
+let stubbingMode = false
+
+export function mayBeStubbed (Comp) {
   if (stubbingMode) {
-    const displayName = Comp.displayName || Comp.name || 'Component';
+    const displayName = Comp.displayName || Comp.name || 'Component'
     return class StubComponent extends React.Component {
-      render() {
+      render () {
         if (StubComponent.__getComponent) {
-          return StubComponent.__getComponent(this.props);
+          return StubComponent.__getComponent(this.props)
         }
 
-        const label = `<${displayName}/>`;
+        const label = `<${displayName}/>`
 
         return (
           <span>{label}</span>
-        );
+        )
       }
-    };
+    }
   }
 
-  return Comp;
+  return Comp
 }
 
-export function setStubbingMode(mode) {
-  stubbingMode = mode; /* eslint no-param-reassign:0 */
+export function setStubbingMode (mode) {
+  stubbingMode = mode
 }
 
-export function stub(Comp, fn) {
-  Comp.__getComponent = fn;
+export function stub (Comp, fn) {
+  Comp.__getComponent = fn
 }
