@@ -6,7 +6,7 @@ import {
   inheritStatics,
   isStateless,
   isFunction,
-  isArray,
+  isArray
 } from './utils'
 
 let defaultOptions = {
@@ -17,13 +17,13 @@ let defaultOptions = {
   propsToWatch: null,
   shouldTrack: null,
   shouldUpdate: null,
-  withRef: true,
+  withRef: true
 }
 
 export function setOptions (options = {}) {
   defaultOptions = {
     ...defaultOptions,
-    ...options,
+    ...options
   }
 
   return defaultOptions
@@ -33,7 +33,7 @@ export function compose (tracker, options = {}) {
   return function (Comp) {
     options = {
       ...defaultOptions,
-      ...options,
+      ...options
     }
 
     const {
@@ -43,11 +43,11 @@ export function compose (tracker, options = {}) {
       pure,
       propsToWatch,
       shouldTrack,
-      shouldUpdate,
+      shouldUpdate
     } = options
 
     let {
-      withRef,
+      withRef
     } = options
 
     if (isStateless(Comp)) {
@@ -57,7 +57,7 @@ export function compose (tracker, options = {}) {
     class Container extends React.Component {
       state = {
         error: null,
-        data: null,
+        data: null
       }
 
       componentDidMount () {

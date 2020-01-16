@@ -242,11 +242,11 @@ describe('compose', () => {
       })
     })
 
-    describe('with shouldSubscribe', () => {
+    describe('with shouldTrack', () => {
       describe('tracker', () => {
-        it('should run for the first time even shouldSubscribe give false', () => {
+        it('should run for the first time even shouldTrack give false', () => {
           const options = {
-            shouldSubscribe: () => false
+            shouldTrack: () => false
           }
           const Container = compose((props, onData) => {
             onData(null, { name: 'arunoda' })
@@ -257,7 +257,7 @@ describe('compose', () => {
 
         it('should ignore propsToWatch', () => {
           const options = {
-            shouldSubscribe: () => true,
+            shouldTrack: () => true,
             propsToWatch: []
           }
 
