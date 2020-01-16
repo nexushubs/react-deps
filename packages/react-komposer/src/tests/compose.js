@@ -1,17 +1,17 @@
-/* eslint react/prefer-stateless-function: 0, react/prop-types: 0 */
-
 import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import React from 'react'
 import { compose } from '../'
 
 Enzyme.configure({ adapter: new Adapter() })
 
-const { describe, it } = global
 class Comp extends React.Component {
   render () {
-    return (<p>{this.props.name}</p>)
+    return (
+      <p>{this.props.name}</p>
+    )
   }
 }
 
@@ -37,14 +37,13 @@ describe('compose', () => {
       const Container = compose((props, onData) => {
         onData(null, { name: 'arunoda' })
       })(({ name, age }) => (<p>{name}={age}</p>))
-
       const el = shallow(<Container age={20} />)
       expect(el.html()).to.match(/arunoda=20/)
     })
 
-    it('should run with the env', (done) => {
-      const env = { name: 'arunoda' }
-      const options = { env }
+    it('should run with the context', (done) => {
+      const context = { name: 'arunoda' }
+      const options = { context }
       const Container = compose((props, onData, context) => {
         expect(context.name).to.be.equal('arunoda')
         done()
@@ -83,18 +82,16 @@ describe('compose', () => {
     })
   })
 
-  describe('dataLoader features', () => {
+  describe('tracker features', () => {
     it('should allow to pass data multiple times', () => {
       let onData
       const Container = compose((props, _onData) => {
         onData = _onData
       })(Comp)
-
       const el = mount(<Container />)
       // First run
       onData(null, { name: 'arunoda' })
       expect(el.instance().state.data.name).to.be.equal('arunoda')
-
       // Second run
       onData(null, { name: 'kamal' })
       expect(el.instance().state.data.name).to.be.equal('kamal')
@@ -105,7 +102,6 @@ describe('compose', () => {
         onData(null, {})
         return done
       })(Comp)
-
       const el = mount(<Container name='arunoda' />)
       el.instance().componentWillUnmount()
     })
@@ -117,9 +113,8 @@ describe('compose', () => {
         onData(null, {})
         return done
       })(Comp)
-
       const el = mount(<Container name='arunoda' />)
-      el.instance()._subscribe({ aa: 10 })
+      el.instance().track({ aa: 10 })
     })
 
     it('should throw an error when sending data when unmounted', () => {
@@ -133,13 +128,13 @@ describe('compose', () => {
       el.instance().componentWillUnmount()
 
       const run = () => onData(null, { aa: 10 })
-      expect(run).to.throw(/Tyring set data after/)
+      expect(run).to.throw('Trying to set data after component(Container(Comp)) has unmounted.')
     })
   })
 
   describe('performance', () => {
     describe('with propsToWatch === []', () => {
-      describe('dataLoader', () => {
+      describe('tracker', () => {
         it('should run for the first time - kkrgr', () => {
           const options = {
             propsToWatch: []
@@ -162,7 +157,7 @@ describe('compose', () => {
           }, options)(Comp)
 
           const el = mount(<Container />)
-          el.instance()._subscribe({ aa: 10 })
+          el.instance().track({ aa: 10 })
 
           expect(callCount).to.be.equal(1)
         })
@@ -170,7 +165,7 @@ describe('compose', () => {
     })
 
     describe('with propsToWatch == [some props]', () => {
-      describe('dataLoader', () => {
+      describe('tracker', () => {
         it('should not run if the watching props are the same', () => {
           const options = {
             propsToWatch: ['name']
@@ -182,7 +177,7 @@ describe('compose', () => {
           }, options)(Comp)
 
           const el = mount(<Container name='arunoda' />)
-          el.instance()._subscribe({ name: 'arunoda', age: 20 })
+          el.instance().track({ name: 'arunoda', age: 20 })
 
           expect(callCount).to.be.equal(1)
         })
@@ -198,7 +193,7 @@ describe('compose', () => {
           }, options)(Comp)
 
           const el = mount(<Container name='arunoda' />)
-          el.instance()._subscribe({ name: 'kamal', age: 20 })
+          el.instance().track({ name: 'kamal', age: 20 })
 
           expect(callCount).to.be.equal(2)
         })
@@ -219,7 +214,7 @@ describe('compose', () => {
           // let's change the stuff inside the data
           data.foo = 100
 
-          el.instance()._subscribe({ data })
+          el.instance().track({ data })
 
           expect(callCount).to.be.equal(1)
         })
@@ -237,18 +232,18 @@ describe('compose', () => {
           const el = mount(<Container name='arunoda' age={20} />)
 
           // first run with same props
-          el.instance()._subscribe({ name: 'arunoda', age: 20, kkr: 20 })
+          el.instance().track({ name: 'arunoda', age: 20, kkr: 20 })
           expect(callCount).to.be.equal(1)
 
           // second run with changed props
-          el.instance()._subscribe({ name: 'arunoda', age: 30 })
+          el.instance().track({ name: 'arunoda', age: 30 })
           expect(callCount).to.be.equal(2)
         })
       })
     })
 
     describe('with shouldSubscribe', () => {
-      describe('dataLoader', () => {
+      describe('tracker', () => {
         it('should run for the first time even shouldSubscribe give false', () => {
           const options = {
             shouldSubscribe: () => false
@@ -272,7 +267,7 @@ describe('compose', () => {
           }, options)(Comp)
 
           const el = mount(<Container />)
-          el.instance()._subscribe({ aa: 10 })
+          el.instance().track({ aa: 10 })
 
           expect(callCount).to.be.equal(2)
         })

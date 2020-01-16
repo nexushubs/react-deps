@@ -2,60 +2,70 @@ import React from 'react'
 import shallowEqual from 'shallowequal'
 import pick from 'lodash.pick'
 import { mayBeStubbed } from '@lvfang/react-stubber'
-import { inheritStatics, isStateless } from './utils'
+import {
+  inheritStatics,
+  isStateless,
+  isFunction,
+  isArray,
+} from './utils'
 
-let _options = {
-  errorHandler: (err) => { throw err },
+let defaultOptions = {
+  errorHandler: error => { throw error },
   loadingHandler: () => null,
-  env: {},
+  context: {},
   pure: false,
-  propsToWatch: null, // Watch all the props.
-  shouldSubscribe: null,
+  propsToWatch: null,
+  shouldTrack: null,
   shouldUpdate: null,
-  withRef: true
+  withRef: true,
 }
 
-export function _setOptions (options) {
-  _options = { ..._options, ...options }
+export function setOptions (options = {}) {
+  defaultOptions = {
+    ...defaultOptions,
+    ...options,
+  }
+
+  return defaultOptions
 }
 
-export function _compose (dataLoader, options = {}) {
-  return function (Child) {
-    options = { ..._options, ...options }
+export function compose (tracker, options = {}) {
+  return function (Comp) {
+    options = {
+      ...defaultOptions,
+      ...options,
+    }
 
     const {
       errorHandler,
       loadingHandler,
-      env,
+      context,
       pure,
-      propsToWatch, // Watch all the props.
-      shouldSubscribe,
-      shouldUpdate
+      propsToWatch,
+      shouldTrack,
+      shouldUpdate,
     } = options
 
     let {
-      withRef
+      withRef,
     } = options
 
-    if (isStateless(Child)) {
+    if (isStateless(Comp)) {
       withRef = false
     }
 
     class Container extends React.Component {
-      constructor (props, ...args) {
-        super(props, ...args)
-        this.state = {}
-        this.propsCache = {}
-
-        this._subscribe(props)
+      state = {
+        error: null,
+        data: null,
       }
 
       componentDidMount () {
-        this._mounted = true
+        this.track(this.props)
       }
 
       shouldComponentUpdate (nextProps, nextState) {
-        if (shouldUpdate) {
+        if (isFunction(shouldUpdate)) {
           return shouldUpdate(this.props, nextProps)
         }
 
@@ -71,64 +81,70 @@ export function _compose (dataLoader, options = {}) {
       }
 
       componentDidUpdate () {
-        this._subscribe(this.props)
+        this.track(this.props)
       }
 
       componentWillUnmount () {
         this._unmounted = true
-        this._unsubscribe()
+        this.untrack()
       }
 
-      _shouldSubscribe (props) {
-        const firstRun = !this._cachedWatchingProps
-        const nextProps = propsToWatch === null ? props : pick(props, propsToWatch)
-        const currentProps = this._cachedWatchingProps || {}
-        this._cachedWatchingProps = nextProps
+      shouldTrack = props => {
+        const firstRun = !this.cachedProps
 
-        if (firstRun) return true
-        if (typeof shouldSubscribe === 'function') {
-          return shouldSubscribe(currentProps, nextProps)
+        const nextProps = isArray(propsToWatch)
+          ? pick(props, propsToWatch)
+          : props
+
+        const currentProps = this.cachedProps || {}
+
+        this.cachedProps = nextProps
+
+        if (firstRun) {
+          return true
         }
 
-        if (propsToWatch !== null && propsToWatch.length === 0) return false
+        if (isFunction(shouldTrack)) {
+          return shouldTrack(currentProps, nextProps)
+        }
+
+        if (isArray(propsToWatch) && propsToWatch.length === 0) {
+          return false
+        }
+
         return !shallowEqual(currentProps, nextProps)
       }
 
-      _subscribe (props) {
-        if (!this._shouldSubscribe(props)) return
+      track = props => {
+        if (!this.shouldTrack(props)) {
+          return
+        }
 
         const onData = (error, data) => {
           if (this._unmounted) {
             throw new Error(`Trying to set data after component(${Container.displayName}) has unmounted.`)
           }
 
-          const payload = { error, data }
-
-          if (!this._mounted) {
-            this.state = {
-              ...this.state,
-              ...payload
-            }
-            return
-          }
-
-          this.setState(payload)
+          this.setState({ error, data })
         }
 
-        // We need to do this before subscribing again.
-        this._unsubscribe()
-        this._stop = dataLoader(props, onData, env)
+        this.untrack()
+        this.stopTracker = tracker(props, onData, context)
       }
 
-      _unsubscribe () {
-        if (this._stop) {
-          this._stop()
+      untrack = () => {
+        if (this.stopTracker) {
+          this.stopTracker()
         }
+      }
+
+      setChildRef = ref => {
+        this.child = ref
       }
 
       render () {
-        const props = this.props
-        const { data, error } = this.state
+        const { props } = this
+        const { error, data } = this.state
 
         if (error) {
           return errorHandler(error)
@@ -138,29 +154,18 @@ export function _compose (dataLoader, options = {}) {
           return loadingHandler()
         }
 
-        const finalProps = {
-          ...props,
-          ...data
-        }
+        const nextProps = { ...props, ...data }
 
-        const setChildRef = (c) => {
-          this.child = c
-        }
-
-        return withRef
-          ? <Child ref={setChildRef} {...finalProps} />
-          : <Child {...finalProps} />
+        return (
+          withRef
+            ? <Comp ref={this.setChildRef} {...nextProps} />
+            : <Comp {...nextProps} />
+        )
       }
     }
 
-    Container.__komposerData = {
-      dataLoader, options
-    }
+    inheritStatics(Container, Comp)
 
-    inheritStatics(Container, Child)
     return mayBeStubbed(Container)
   }
 }
-
-export const setOptions = _setOptions
-export const compose = _compose

@@ -11,3 +11,11 @@ export function inheritStatics (Container, ChildComponent) {
 export function isStateless ({ prototype }) {
   return !(prototype && prototype.render)
 }
+
+export function isFunction(fn) {
+  return fn && Object.prototype.toString.call(fn) === '[object Function]'
+}
+
+export function isArray(fn) {
+  return fn && Object.prototype.toString.call(fn) === '[object Array]'
+}
