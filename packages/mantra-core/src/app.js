@@ -55,6 +55,7 @@ export default class App {
     }
 
     const actions = module.actions || {}
+
     this.actions = {
       ...this.actions,
       ...actions

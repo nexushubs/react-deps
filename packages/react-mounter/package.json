@@ -44,5 +44,11 @@
   },
   "dependencies": {
     "domready": "^1.0.8"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   }
 }

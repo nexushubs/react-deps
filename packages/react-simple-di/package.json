@@ -47,5 +47,11 @@
   "dependencies": {
     "create-react-class": "^15.6.3",
     "hoist-non-react-statics": "^3.3.1"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   }
 }
