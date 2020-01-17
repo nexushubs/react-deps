@@ -55,10 +55,7 @@ export function compose (tracker, options = {}) {
     }
 
     class Container extends React.Component {
-      state = {
-        error: null,
-        data: null
-      }
+      state = {}
 
       componentDidMount () {
         this.track(this.props)
@@ -74,9 +71,9 @@ export function compose (tracker, options = {}) {
         }
 
         return (
-          !shallowEqual(this.props, nextProps) ||
           this.state.error !== nextState.error ||
-          !shallowEqual(this.state.data, nextState.data)
+          !shallowEqual(this.state.data, nextState.data) ||
+          !shallowEqual(this.props, nextProps)
         )
       }
 
@@ -85,7 +82,7 @@ export function compose (tracker, options = {}) {
       }
 
       componentWillUnmount () {
-        this._unmounted = true
+        this.unmounted = true
         this.untrack()
       }
 
@@ -121,7 +118,7 @@ export function compose (tracker, options = {}) {
         }
 
         const onData = (error, data) => {
-          if (this._unmounted) {
+          if (this.unmounted) {
             throw new Error(`Trying to set data after component(${Container.displayName}) has unmounted.`)
           }
 
