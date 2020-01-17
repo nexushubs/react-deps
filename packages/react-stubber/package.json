@@ -7,6 +7,7 @@
     "url": "https://github.com/kadirahq/react-stubber"
   },
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
     "prepare": ". ./.scripts/prepublish.sh",
     "standard": "standard --fix",
@@ -45,6 +46,5 @@
   "peerDependencies": {
     "@babel/runtime": "^7.x.x",
     "react": "^16.x.x"
-  },
-  "main": "dist/index.js"
+  }
 }

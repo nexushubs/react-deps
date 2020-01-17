@@ -7,6 +7,7 @@
     "url": "https://github.com/kadirahq/react-komposer.git"
   },
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
     "prepare": ". ./.scripts/prepublish.sh",
     "standard": "standard --fix",
@@ -49,7 +50,6 @@
     "lodash.pick": "^4.4.0",
     "shallowequal": "^1.1.0"
   },
-  "main": "dist/index.js",
   "standard": {
     "parser": "babel-eslint",
     "globals": [

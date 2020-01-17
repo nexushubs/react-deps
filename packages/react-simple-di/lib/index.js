@@ -3,12 +3,17 @@ import ReactCreateClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
 
-const getDisplayName = Component => (
-  Component.displayName || Component.name || 'Component'
-)
+const getDisplayName = function (Comp) {
+  return Comp.displayName || Comp.name || 'Component'
+}
+
+const hasOwnProperty = function (props, key) {
+  return Object.prototype.hasOwnProperty.call(props, key)
+}
 
 export function injectDeps (context, _actions) {
   const actions = {}
+
   for (const key in _actions) {
     if (hasOwnProperty(_actions, key)) {
       const actionMap = _actions[key]
@@ -37,11 +42,14 @@ export function injectDeps (context, _actions) {
       },
 
       render () {
-        return (<Component {...this.props} />)
+        return (
+          <Component {...this.props} />
+        )
       }
     })
 
     ComponentWithDeps.displayName = `WithDeps(${getDisplayName(Component)})`
+
     return hoistStatics(ComponentWithDeps, Component)
   }
 }
@@ -54,8 +62,14 @@ const defaultMapper = (context, actions) => ({
 export function useDeps (mapper = defaultMapper) {
   return function (Component) {
     const ComponentUseDeps = ReactCreateClass({
+      contextTypes: {
+        context: PropTypes.object,
+        actions: PropTypes.object
+      },
+
       render () {
         const { context, actions } = this.context
+
         const mappedProps = mapper(context, actions)
 
         const newProps = {
@@ -64,19 +78,11 @@ export function useDeps (mapper = defaultMapper) {
         }
 
         return (<Component {...newProps} />)
-      },
-
-      contextTypes: {
-        context: PropTypes.object,
-        actions: PropTypes.object
       }
     })
 
     ComponentUseDeps.displayName = `UseDeps(${getDisplayName(Component)})`
+
     return hoistStatics(ComponentUseDeps, Component)
   }
-}
-
-function hasOwnProperty (props, key) {
-  return Object.prototype.hasOwnProperty.call(props, key)
 }

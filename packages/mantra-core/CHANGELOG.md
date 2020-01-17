@@ -1,5 +1,9 @@
 # Change Log
 
+### v2.0.0
+
+* maintain to latest dev sets
+
 ### v1.8.7
 
 * use react-komposer v2.1.6
