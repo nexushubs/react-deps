@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactCreateClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
 
@@ -28,25 +27,25 @@ export function injectDeps (context, _actions) {
   }
 
   return function (Component) {
-    const ComponentWithDeps = ReactCreateClass({
-      childContextTypes: {
+    class ComponentWithDeps extends React.Component {
+      static childContextTypes = {
         context: PropTypes.object,
         actions: PropTypes.object
-      },
+      }
 
       getChildContext () {
         return {
           context,
           actions
         }
-      },
+      }
 
       render () {
         return (
           <Component {...this.props} />
         )
       }
-    })
+    }
 
     ComponentWithDeps.displayName = `WithDeps(${getDisplayName(Component)})`
 
@@ -61,11 +60,11 @@ const defaultMapper = (context, actions) => ({
 
 export function useDeps (mapper = defaultMapper) {
   return function (Component) {
-    const ComponentUseDeps = ReactCreateClass({
-      contextTypes: {
+    class ComponentUseDeps extends React.Component {
+      static contextTypes = {
         context: PropTypes.object,
         actions: PropTypes.object
-      },
+      }
 
       render () {
         const { context, actions } = this.context
@@ -77,9 +76,11 @@ export function useDeps (mapper = defaultMapper) {
           ...mappedProps
         }
 
-        return (<Component {...newProps} />)
+        return (
+          <Component {...newProps} />
+        )
       }
-    })
+    }
 
     ComponentUseDeps.displayName = `UseDeps(${getDisplayName(Component)})`
 

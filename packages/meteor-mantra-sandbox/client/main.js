@@ -64,6 +64,7 @@ const RootTracker2 = (props, onData, context) => {
 
 class RootComp2 extends Component {
   componentDidMount() {
+    console.log(this)
     console.log('RootComp2', 'componentDidMount')
   }
 
