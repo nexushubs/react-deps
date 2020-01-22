@@ -1,6 +1,8 @@
 import React from 'react'
-import shallowEqual from 'shallowequal'
-import pick from 'lodash.pick'
+import { useTracker } from 'meteor/react-meteor-data'
+// import shallowEqual from 'shallowequal'
+// import isEqual from 'lodash.isequal'
+// import pick from 'lodash.pick'
 import { mayBeStubbed } from '@lvfang/react-stubber'
 import {
   inheritStatics,
@@ -54,115 +56,30 @@ export function compose (tracker, options = {}) {
       withRef = false
     }
 
-    class Container extends React.Component {
-      state = {}
-
-      componentDidMount () {
-        this.track(this.props)
-      }
-
-      shouldComponentUpdate (nextProps, nextState) {
-        if (isFunction(shouldUpdate)) {
-          return shouldUpdate(this.props, nextProps)
-        }
-
-        if (!pure) {
-          return true
-        }
-
-        return (
-          this.state.error !== nextState.error ||
-          !shallowEqual(this.state.data, nextState.data) ||
-          !shallowEqual(this.props, nextProps)
-        )
-      }
-
-      componentDidUpdate () {
-        this.track(this.props)
-      }
-
-      componentWillUnmount () {
-        this.unmounted = true
-        this.untrack()
-      }
-
-      shouldTrack = props => {
-        const firstRun = !this.cachedProps
-
-        const nextProps = isArray(propsToWatch)
-          ? pick(props, propsToWatch)
-          : props
-
-        const currentProps = this.cachedProps || {}
-
-        this.cachedProps = nextProps
-
-        if (firstRun) {
-          return true
-        }
-
-        if (isFunction(shouldTrack)) {
-          return shouldTrack(currentProps, nextProps)
-        }
-
-        if (isArray(propsToWatch) && propsToWatch.length === 0) {
-          return false
-        }
-
-        return !shallowEqual(currentProps, nextProps)
-      }
-
-      track = props => {
-        if (!this.shouldTrack(props)) {
-          return
-        }
-
-        const onData = (error, data) => {
-          if (this.unmounted) {
-            throw new Error(`Trying to set data after component(${Container.displayName}) has unmounted.`)
-          }
-
-          this.setState({ error, data })
-        }
-
-        this.untrack()
-        this.stopTracker = tracker(props, onData, context)
-      }
-
-      untrack = () => {
-        if (this.stopTracker) {
-          this.stopTracker()
-        }
-      }
-
-      setChildRef = ref => {
-        this.child = ref
-      }
-
-      render () {
-        const { props } = this
-        const { error, data } = this.state
-
-        if (error) {
-          return errorHandler(error)
-        }
-
-        if (!data) {
-          return loadingHandler()
-        }
-
-        const nextProps = { ...props, ...data }
-
-        return (
-          withRef
-            ? <Comp ref={this.setChildRef} {...nextProps} />
-            : <Comp {...nextProps} />
-        )
-      }
+    const onData = (error, data) => {
+      return { error, data }
     }
 
-    inheritStatics(Container, Comp)
+    function Container (...props) {
+      console.log(1)
+      const nextProps = useTracker(function () {
+        return tracker(props, onData, context)
+      }, [])
 
-    return mayBeStubbed(Container)
+      return (
+        withRef
+          ? <Comp ref={setChildRef} {...nextProps} />
+          : <Comp {...nextProps} />
+      )
+    }
+
+    // inheritStatics(Container, Comp)
+    return Container
+
+    // return mayBeStubbed(Container)
   }
+}
+
+function setChildRef (ref) {
+  this.child = ref
 }

@@ -1,14 +1,20 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
-import { composeAll, composeWithTracker, useDeps } from '@lvfang/mantra-core'
+import { composeAll, composeWithTracker, useDeps } from '@lvfang/mantra-core/src'
 import { mount } from '../../../config'
 import { LayoutContainer } from '../common'
 
-const HomeTracker = ({ Collections, LocalState }, onData) => {
+import shallowequal from 'shallowequal'
+
+window._ = _
+window.shallowequal = shallowequal
+
+const HomeTracker = ({ Collections, LocalState, ...props }, onData) => {
   if (!Meteor.subscribe('posts1').ready()) return
 
   const timestamp = LocalState.get('timestamp').toString()
   const posts = Collections.Posts.find().fetch()
-  onData(null, { timestamp, posts })
+  onData(null, { timestamp, posts, ...props })
 }
 
 const HomeDeps = (context, actions) => ({
@@ -22,11 +28,13 @@ class HomeComp extends Component {
   }
 
   render() {
-    const { timestamp, posts } = this.props
+    const { timestamp, posts, ts } = this.props
+    console.log('render', ts)
     return (
       <div>
         <h3>home</h3>
         <div>{this.props.timestamp}</div>
+        <div>{this.props.ts}</div>
 
         <button onClick={this.setTimestamp(Date.now())}>
           set new timestamp
@@ -36,6 +44,23 @@ class HomeComp extends Component {
           <div key={post._id}>{post.title}</div>
         ))}
       </div>
+    )
+  }
+}
+
+class HomeCompWrapper extends Component {
+  state = {
+    ts: Date.now(),
+  }
+
+  render() {
+    return (
+      <>
+        <button onClick={() => {
+          this.setState({ ts: Date.now() })
+        }}>set new ts</button>
+        {this.props.children({ ts: this.state.ts })}
+      </>
     )
   }
 }
@@ -53,7 +78,13 @@ export default {
     FlowRouter.route('/', {
       action() {
         mount(LayoutInjected, {
-          children: () => <HomeInjected />
+          children: () => (
+            <HomeCompWrapper>
+              {({ ts }) => (
+                <HomeInjected ts={ts} />
+              )}
+            </HomeCompWrapper>
+          )
         })
       }
     })
