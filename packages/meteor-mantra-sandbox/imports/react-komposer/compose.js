@@ -1,5 +1,6 @@
+import _ from 'lodash'
 import React from 'react'
-import isEqual from 'lodash.isequal'
+import shallowEqual from 'shallowequal'
 import pick from 'lodash.pick'
 import { mayBeStubbed } from '@lvfang/react-stubber'
 import {
@@ -56,7 +57,7 @@ export function compose (tracker, options = {}) {
 
     class Container extends React.Component {
       state = {
-        error: null,
+        error: null
       }
 
       componentDidMount () {
@@ -73,9 +74,9 @@ export function compose (tracker, options = {}) {
         }
 
         return (
-          this.state.error !== nextState.error ||
-          !isEqual(this.state.data, nextState.data) ||
-          !isEqual(this.props, nextProps)
+          this.state.error !== nextState.error
+            || !_.isEqual(this.state.data, nextState.data)
+            || !_.isEqual(this.props, nextProps)
         )
       }
 
@@ -111,7 +112,7 @@ export function compose (tracker, options = {}) {
           return false
         }
 
-        return !isEqual(currentProps, nextProps)
+        return !shallowEqual(currentProps, nextProps)
       }
 
       track = props => {

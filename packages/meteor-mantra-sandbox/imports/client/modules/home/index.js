@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
-import { composeAll, composeWithTracker, useDeps } from '@lvfang/mantra-core'
+import { composeAll, composeWithTracker, useDeps, setOptions } from '@lvfang/mantra-core'
+// import { composeAll, composeWithTracker, useDeps } from '/imports/react-komposer'
+// import { useDeps } from '@lvfang/react-simple-di'
 import { mount } from '../../../config'
 import { LayoutContainer } from '../common'
 
-const HomeTracker = ({ Collections, LocalState }, onData) => {
+setOptions({
+  pure: true,
+})
+
+const HomeTracker = ({ context: { Collections, LocalState } }, onData) => {
   if (!Meteor.subscribe('posts1').ready()) return
 
   const timestamp = LocalState.get('timestamp').toString()
@@ -12,8 +18,8 @@ const HomeTracker = ({ Collections, LocalState }, onData) => {
 }
 
 const HomeDeps = (context, actions) => ({
-  ...context,
-  ...actions,
+  context,
+  actions,
 })
 
 class HomeComp extends Component {
@@ -22,11 +28,13 @@ class HomeComp extends Component {
   }
 
   render() {
-    const { timestamp, posts } = this.props
+    const { timestamp, posts, ts } = this.props
+    console.error('render', ts)
     return (
       <div>
         <h3>home</h3>
-        <div>{this.props.timestamp}</div>
+        {/* <div>{this.props.timestamp}</div> */}
+        <div>{this.props.ts}</div>
 
         <button onClick={this.setTimestamp(Date.now())}>
           set new timestamp
@@ -36,6 +44,23 @@ class HomeComp extends Component {
           <div key={post._id}>{post.title}</div>
         ))}
       </div>
+    )
+  }
+}
+
+class HomeCompWrapper extends Component {
+  state = {
+    ts: Date.now(),
+  }
+
+  render() {
+    return (
+      <>
+        <button onClick={() => {
+          this.setState({ ts: Date.now() })
+        }}>set new ts</button>
+        {this.props.children({ ts: this.state.ts })}
+      </>
     )
   }
 }
@@ -53,7 +78,13 @@ export default {
     FlowRouter.route('/', {
       action() {
         mount(LayoutInjected, {
-          children: () => <HomeInjected />
+          children: () => (
+            <HomeCompWrapper>
+              {({ ts }) => (
+                <HomeInjected ts={ts} />
+              )}
+            </HomeCompWrapper>
+          )
         })
       }
     })

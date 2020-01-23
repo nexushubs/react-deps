@@ -1,6 +1,6 @@
 {
   "name": "@lvfang/mantra-core",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Core API for Mantra",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "@babel/runtime": "^7.x.x"
   },
   "dependencies": {
-    "@lvfang/react-komposer": "^2.3.0",
+    "@lvfang/react-komposer": "^2.3.1",
     "@lvfang/react-simple-di": "^1.4.0"
   },
   "standard": {

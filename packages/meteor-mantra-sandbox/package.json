@@ -9,6 +9,7 @@
     "@lvfang/mantra-core": "^1.9.1",
     "@lvfang/react-komposer": "^2.2.0",
     "@lvfang/react-mounter": "^1.3.0",
+    "@lvfang/react-simple-di": "^1.4.0",
     "faker": "^4.1.0",
     "lodash": "^4.17.15",
     "meteor-node-stubs": "^1.0.0",
