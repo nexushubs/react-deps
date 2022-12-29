@@ -25,9 +25,9 @@
     "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.3",
-    "@storybook/react": "^5.3.3",
+    "@storybook/react": "^6.5.15",
     "acorn": "^7.1.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.3.0",
     "chai": "^3.5.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -41,7 +41,7 @@
     "regenerator-runtime": "^0.13.3",
     "sinon": "^8.0.4",
     "standard": "^14.3.1",
-    "webpack": "^4.41.5"
+    "webpack": "^5.75.0"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.x.x",
